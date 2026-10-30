@@ -20,6 +20,7 @@ from llm_literature_screener.io.common import (
     split_authors,
 )
 from llm_literature_screener.io.table import read_delimited
+from llm_literature_screener.metrics import rank_order
 from llm_literature_screener.record import Assessment, Decision, Record
 
 RESULT_COLUMNS = (
@@ -41,11 +42,6 @@ RESULT_COLUMNS = (
 
 class ResultsFileError(ValueError):
     """Raised when a results or scores file is missing a required column or value."""
-
-
-def rank_order(scores: Sequence[float]) -> list[int]:
-    """Return indices sorted by score, highest first; ties keep their input order."""
-    return sorted(range(len(scores)), key=lambda index: -scores[index])
 
 
 def write_results(records: Sequence[Record], path: Path) -> None:
