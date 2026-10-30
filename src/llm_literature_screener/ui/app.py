@@ -56,6 +56,12 @@ EXPECTED_ERRORS = (
     UnknownFormatError,
     ValueError,
 )
+BACKEND_LABELS = {
+    "hf": "hf: local model (transformers)",
+    "openai": "openai: OpenAI-compatible server",
+    "mock": "mock: keyword demo, no model",
+}
+"""Short menu labels for the backends, which fit the sidebar."""
 PROTOCOL_TEMPLATE = """question: <the review question>
 population: <who the review is about>
 intervention: <intervention or exposure>
@@ -112,7 +118,7 @@ def load_scorer(backend: str, model: str, settings: tuple[tuple[str, Any], ...])
 
 def describe_backend(name: str) -> str:
     """Label a backend in the backend menu."""
-    return f"{name}: {BACKENDS[name]}"
+    return BACKEND_LABELS.get(name, name)
 
 
 def backend_settings() -> tuple[str, str, tuple[tuple[str, Any], ...]]:
