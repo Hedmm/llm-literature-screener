@@ -1,0 +1,12 @@
+# Criteria used in the case study for the second test review (CBT for anxiety disorders).
+title: van Dis 2020, CBT for anxiety-related disorders
+question: Long-term outcomes of cognitive behavioral therapy for anxiety-related disorders.
+include: >-
+  Randomized controlled trials in adults with an anxiety-related disorder (generalized anxiety
+  disorder, panic disorder, social anxiety disorder, specific phobia, post-traumatic stress
+  disorder or obsessive-compulsive disorder) comparing cognitive behavioral therapy, including
+  exposure therapy, with a control condition (waiting list, usual care, placebo or
+  psychological placebo).
+exclude: >-
+  Non-randomized studies, trials without a control condition, trials only in children or
+  adolescents, reviews, meta-analyses and study protocols.

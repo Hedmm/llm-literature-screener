@@ -1,0 +1,11 @@
+# Criteria used in the case study for the first test review (heart disease and dementia).
+title: Wolters 2018, heart disease and dementia
+question: Coronary heart disease, heart failure, and the risk of dementia.
+include: >-
+  Longitudinal studies (prospective or retrospective cohort, nested case-control) in
+  community or population-based samples of adults, in which coronary heart disease
+  (myocardial infarction, angina, coronary artery disease) or heart failure is the exposure
+  and incident dementia (all-cause, Alzheimer's disease or vascular dementia) is the outcome.
+exclude: >-
+  Cross-sectional studies, studies with only cognitive test scores or cognitive decline and no
+  dementia diagnosis, reviews, editorials, case reports, and animal studies.

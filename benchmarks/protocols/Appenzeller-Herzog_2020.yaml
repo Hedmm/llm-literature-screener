@@ -1,0 +1,11 @@
+# Criteria used in the case study for the development review (Wilson disease).
+title: Appenzeller-Herzog 2020, Wilson disease treatments
+question: Comparative effectiveness of common therapies for Wilson disease (controlled studies).
+include: >-
+  Studies in patients with Wilson disease that compare a treatment (D-penicillamine,
+  trientine, zinc salts, tetrathiomolybdate, liver transplantation or other) with another
+  treatment, placebo or no treatment, i.e. studies with a control or comparison group,
+  reporting clinical outcomes.
+exclude: >-
+  Single-arm case series and case reports, reviews, editorials, animal or in-vitro studies,
+  and studies of diagnosis, genetics or pathophysiology without a treatment comparison.
