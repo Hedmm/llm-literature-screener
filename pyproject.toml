@@ -1,0 +1,112 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm-literature-screener"
+dynamic = ["version"]
+description = "Pre-screen titles and abstracts for systematic reviews with an open LLM, calibrated for high recall."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Maksim M." }]
+requires-python = ">=3.10"
+keywords = [
+  "systematic review",
+  "title and abstract screening",
+  "evidence synthesis",
+  "large language model",
+  "PRISMA",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Healthcare Industry",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Scientific/Engineering :: Medical Science Apps.",
+  "Typing :: Typed",
+]
+dependencies = [
+  "httpx>=0.25",
+  "openpyxl>=3.1",
+  "pyyaml>=6.0",
+  "rich>=13.0",
+  "typer>=0.12",
+]
+
+[project.optional-dependencies]
+hf = ["torch>=2.1", "transformers>=4.45"]
+ui = ["streamlit>=1.36"]
+dev = [
+  "llm-literature-screener[ui]",
+  "mypy>=1.10",
+  "pytest>=8.0",
+  "ruff>=0.6",
+  "types-PyYAML>=6.0",
+]
+
+[project.scripts]
+lls = "llm_literature_screener.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/Hedmm/llm-literature-screener"
+Documentation = "https://github.com/Hedmm/llm-literature-screener/tree/main/docs"
+"Case study" = "https://github.com/Hedmm/ml-case-studies/tree/main/llm-screening-systematic-reviews"
+
+[tool.hatch.version]
+path = "src/llm_literature_screener/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "examples", "docs", "benchmarks", "README.md", "LICENSE"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_literature_screener"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests", "benchmarks"]
+
+[tool.ruff.lint]
+select = ["B", "C4", "D", "E", "F", "I", "N", "PTH", "RUF", "SIM", "UP", "W"]
+ignore = [
+  "D105", # Magic methods are self-explanatory.
+  "D107", # __init__ arguments are documented in the class docstring.
+]
+allowed-confusables = ["–", "−", "×"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D1"]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.mypy]
+python_version = "3.10"
+files = ["src", "tests"]
+strict = true
+warn_unreachable = true
+pretty = true
+
+[[tool.mypy.overrides]]
+# Torch and transformers are optional and very large; treat them as untyped so that type
+# checking gives the same result whether or not the "hf" extra is installed.
+module = ["torch", "torch.*", "transformers", "transformers.*"]
+ignore_missing_imports = true
+follow_imports = "skip"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+  "network: needs internet access; skipped automatically when it is not available",
+]
