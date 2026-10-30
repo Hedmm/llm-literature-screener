@@ -1,10 +1,12 @@
 """A deterministic keyword-based scorer for tests and demonstrations.
 
-The mock does not use a language model. It counts how many content words of the review
-question and inclusion criteria appear in a record's title and abstract, subtracts a penalty
-for words that only occur in the exclusion criteria, and adds a small fixed jitter derived
-from the record so that ties are rare. The scores are on a logit-like scale so that the rest
-of the pipeline (calibration, decisions, reports) behaves as it does with a real model.
+The mock does not use a language model. It measures which share of the content words of
+the review question and inclusion criteria appear in a record's title and abstract,
+subtracts a penalty for each word that occurs only in the exclusion criteria, and adds a
+small fixed jitter derived from the record so that ties are rare. Like the validated prompt,
+which asks the model to answer Yes when the abstract is missing, it does not hold a missing
+abstract against a record. The scores are on a logit-like scale so that the rest of the
+pipeline (calibration, decisions, reports) behaves as it does with a real model.
 """
 
 from __future__ import annotations
@@ -17,9 +19,13 @@ from llm_literature_screener.backends.base import ProgressCallback, ScorerInfo
 from llm_literature_screener.criteria import Criteria
 from llm_literature_screener.record import Record
 
-INCLUDE_WEIGHT = 1.5
-EXCLUDE_WEIGHT = 2.5
-OFFSET = -6.0
+INCLUDE_WEIGHT = 16.0
+"""Score added for a record that contains every inclusion term (scaled by the share found)."""
+EXCLUDE_WEIGHT = 3.0
+"""Score subtracted for each exclusion term found."""
+MISSING_ABSTRACT_BONUS = 3.0
+"""Score added when the abstract is missing, so that such records go to people."""
+OFFSET = -5.5
 JITTER = 0.5
 
 _WORD = re.compile(r"[a-z][a-z-]+")
@@ -30,8 +36,9 @@ from further have having here into itself just least less many more most much mu
 none only other over same should since some such than that their them then there these they
 this those through under until upon very were what when where whether which while with
 within without would your record records study studies report reports published paper
-papers article articles review reviews using used based include exclude including excluding
-effect effects
+papers article articles using used based include exclude including excluding effect effects
+background objective objectives method methods result results conclusion conclusions
+intervention interventions participant participants outcome outcomes
 """
 STOPWORDS = frozenset(_STOPWORD_TEXT.split())
 """Common words that say nothing about a record's topic."""
@@ -124,8 +131,9 @@ class MockScorer:
         for record in records:
             words = terms(record.title, record.abstract)
             score = (
-                INCLUDE_WEIGHT * len(words & include)
+                INCLUDE_WEIGHT * len(words & include) / max(1, len(include))
                 - EXCLUDE_WEIGHT * len(words & exclude)
+                + (0.0 if record.abstract.strip() else MISSING_ABSTRACT_BONUS)
                 + OFFSET
                 + _jitter(record)
             )
