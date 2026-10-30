@@ -1,0 +1,3 @@
+id	title	abstract	authors	year	journal	doi	pmid	label
+T1	Synthetic TSV record one	Abstract one.	Example, Ann	2020	Journal of Synthetic Examples	10.5555/synth.0401		include
+T2	Synthetic TSV record two		Sample, Ben	2018	Synthetic Reviews		90000402	exclude

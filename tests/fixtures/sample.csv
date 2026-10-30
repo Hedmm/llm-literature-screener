@@ -1,0 +1,5 @@
+Record ID,Paper name,Abstract,Author(s),Publication Year,Source title,DOI,PMID,Included,Notes
+C1,"Exercise therapy for chronic low back pain, a synthetic trial","Synthetic abstract, with a comma.","Example, Ann; Sample, Ben",2021,Journal of Synthetic Examples,doi:10.5555/synth.0201,90000201,yes,keep this column
+C2,Synthetic record two,"Abstract text that
+spans two lines.",Test D,2019,Synthetic Reviews,,,no,
+C3,Synthetic record three,,,,,,,,

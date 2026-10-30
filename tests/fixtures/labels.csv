@@ -1,0 +1,6 @@
+id,doi,title,label
+R1,,,include
+,10.5555/synth.0002,,exclude
+,,A synthetic record without an abstract,yes
+X99,,,no
+R1,,,maybe

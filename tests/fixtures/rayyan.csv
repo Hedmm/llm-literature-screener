@@ -1,0 +1,6 @@
+key,title,authors,journal,issn,volume,issue,pages,year,month,day,publisher,pmc_id,pubmed_id,url,abstract,notes,doi,keywords
+rayyan-1001,Synthetic trial of walking for chronic low back pain,"Example, Ann and Sample, Ben",Journal of Synthetic Examples,,1,1,1-8,2021,,,,,90000501,,Synthetic abstract one.,"RAYYAN-INCLUSION: {""Alice""=>""Included"", ""Bob""=>""Included""} | RAYYAN-LABELS: RCT",10.5555/synth.0501,walking
+rayyan-1002,Synthetic cohort of office workers,"Test, Dana",Synthetic Reviews,,2,3,10-20,2017,,,,,,,Synthetic abstract two.,"RAYYAN-INCLUSION: {""Alice""=>""Excluded"", ""Bob""=>""Excluded""} | RAYYAN-EXCLUSION-REASONS: wrong population",,
+rayyan-1003,Synthetic pilot study of stretching,"Placeholder, Cara",Synthetic Reviews,,,,,2016,,,,,,,Synthetic abstract three.,"RAYYAN-INCLUSION: {""Alice""=>""Maybe""}",,
+rayyan-1004,Synthetic trial with conflicting decisions,"Example, Ann",Journal of Synthetic Examples,,,,,2020,,,,,,,Synthetic abstract four.,"Imported note | RAYYAN-INCLUSION: {""Alice""=>""Excluded"", ""Bob""=>""Included""}",,
+rayyan-1005,Synthetic record that nobody screened,"Sample, Ben",Synthetic Reviews,,,,,2015,,,,,,,,,,
