@@ -24,6 +24,7 @@ from llm_literature_screener.criteria import Criteria
 from llm_literature_screener.metrics import Evaluation, evaluation_order, rank_order, recall_curve
 from llm_literature_screener.prisma import PrismaCounts
 from llm_literature_screener.record import Decision, Record, sigmoid
+from llm_literature_screener.text import plural
 
 MAX_LISTED = 500
 """At most this many uncertain records are listed; the results CSV has all of them."""
@@ -116,7 +117,7 @@ def _summary_tiles(data: ReportData, counts: dict[Decision, int]) -> str:
         _tile(
             "Records screened by the tool",
             f"{total:,}",
-            f"{data.prisma.duplicates_removed:,} duplicates removed first"
+            f"{plural(data.prisma.duplicates_removed, 'duplicate')} removed first"
             if data.prisma
             else "unique records",
         ),

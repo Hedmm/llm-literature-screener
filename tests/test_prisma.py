@@ -33,6 +33,7 @@ def test_methods_paragraph_states_model_rule_target_and_human_decisions() -> Non
     assert "llm-literature-screener 0.1.0" in text
     assert "Qwen/Qwen2.5-7B-Instruct" in text
     assert "2 duplicate records were removed" in text
+    assert "the model was given the review question" in text
     assert 'logits of "Yes" and "No"' in text
     assert "highest score that kept at least 95% of the known inclusions" in text
     assert "4 records that the review team had already screened, 3 of them known inclusions" in text
@@ -50,6 +51,8 @@ def test_methods_paragraph_for_a_fixed_threshold_and_the_mock_backend() -> None:
     )
     assert "set by the review team at a score of 0.50" in text
     assert "mock scorer" in text
+    assert "compared with the review question" in text
+    assert "the model was given" not in text
     assert "duplicate" not in text
     assert "recall" not in text
 
@@ -63,3 +66,13 @@ def test_prisma_markdown_lists_the_boxes() -> None:
     assert "| Records screened by the review team | 5 |" in text
     assert "to be completed by the review team" in text
     assert text.rstrip().endswith("Methods text.")
+
+
+def test_methods_paragraph_uses_singular_forms_for_one() -> None:
+    calibration = calibrate([2.0, 1.0], [True, None], target_recall=1.0)
+    counts = prisma_counts(3, 1, [Decision.INCLUDE, Decision.EXCLUDE])
+    text = methods_paragraph(HF_INFO, calibration, counts, "0.1.0")
+    assert "1 duplicate record was removed" in text
+    assert "calibrated on 1 record that the review team" in text
+    assert "1 of 1 known inclusion was kept" in text
+    assert "the remaining 1 record was screened" in text

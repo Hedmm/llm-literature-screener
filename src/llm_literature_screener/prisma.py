@@ -15,6 +15,7 @@ from typing import Any
 from llm_literature_screener.backends.base import ScorerInfo
 from llm_literature_screener.calibrate import Calibration
 from llm_literature_screener.record import Decision, sigmoid
+from llm_literature_screener.text import plural
 
 
 @dataclass(frozen=True)
@@ -107,21 +108,30 @@ def methods_paragraph(
         f"using {_model_phrase(info)}."
     ]
     if deduplicated:
+        removed = counts.duplicates_removed
         sentences.append(
-            f"Before screening, {counts.duplicates_removed} duplicate records were removed by "
-            "matching DOIs, PubMed IDs, and normalized titles with publication years."
+            f"Before screening, {plural(removed, 'duplicate record')} "
+            f"{'was' if removed == 1 else 'were'} removed by matching DOIs, PubMed IDs, and "
+            "normalized titles with publication years."
         )
-    sentences.append(
-        "For each record, the model was given the review question, the eligibility criteria, "
-        "and the record's title and abstract, and was asked whether the record should go to "
-        f"full-text review; the screening score was {info.score_definition}."
-    )
+    if info.backend == "mock":
+        sentences.append(
+            "Each record's title and abstract were compared with the review question and the "
+            f"eligibility criteria; the screening score was {info.score_definition}."
+        )
+    else:
+        sentences.append(
+            "For each record, the model was given the review question, the eligibility "
+            "criteria, and the record's title and abstract, and was asked whether the record "
+            f"should go to full-text review; the screening score was {info.score_definition}."
+        )
     threshold = calibration.threshold
     if calibration.method == "target_recall" and calibration.target_recall is not None:
         sentences.append(
-            f"The exclusion threshold was calibrated on {calibration.labeled} records that the "
-            f"review team had already screened, {calibration.known_inclusions} of them known "
-            "inclusions: it was set to the highest score that kept at least "
+            f"The exclusion threshold was calibrated on {plural(calibration.labeled, 'record')} "
+            "that the review team had already screened, "
+            f"{calibration.known_inclusions} of them known inclusions: it was set to the "
+            "highest score that kept at least "
             f"{calibration.target_recall:.0%} of the known inclusions "
             f"(a score of {threshold:.2f}, P(include) = {sigmoid(threshold):.3g})."
         )
@@ -133,20 +143,26 @@ def methods_paragraph(
     if calibration.recall is not None and calibration.recall_ci is not None:
         low, high = calibration.recall_ci
         sentences.append(
-            f"At this threshold, {calibration.found} of {calibration.known_inclusions} known "
-            f"inclusions were kept (recall {_percent(calibration.recall)}; "
+            f"At this threshold, {calibration.found} of "
+            f"{plural(calibration.known_inclusions, 'known inclusion')} "
+            f"{'was' if calibration.found == 1 else 'were'} kept "
+            f"(recall {_percent(calibration.recall)}; "
             f"{calibration.confidence:.0%} Wilson confidence interval {_percent(low)} to "
             f"{_percent(high)})."
         )
     sentences.append(
         f"Records scoring below the threshold (n = {counts.excluded_by_tool}) were marked as "
-        f"ineligible by an automation tool, and the remaining {counts.to_screen} records were "
+        "ineligible by an automation tool, and the remaining "
+        f"{plural(counts.to_screen, 'record')} {'was' if counts.to_screen == 1 else 'were'} "
         "screened by the review team."
     )
     if reasons:
-        sentences.append(
-            "For these records the model also wrote a one-line reason to support the reviewers."
+        writer = (
+            "the tool listed the protocol terms found"
+            if info.backend == "mock"
+            else ("the model also wrote a one-line reason")
         )
+        sentences.append(f"For these records {writer} to support the reviewers.")
     sentences.append(
         "The tool made no final eligibility decision: every inclusion and exclusion was decided "
         "by the reviewers."
