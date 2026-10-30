@@ -103,9 +103,9 @@ warn_unreachable = true
 pretty = true
 
 [[tool.mypy.overrides]]
-# Torch and transformers are optional and very large; treat them as untyped so that type
-# checking gives the same result whether or not the "hf" extra is installed.
-module = ["torch", "torch.*", "transformers", "transformers.*"]
+# Torch, transformers and tokenizers are optional and very large; treat them as untyped so
+# that type checking gives the same result whether or not the "hf" extra is installed.
+module = ["tokenizers", "tokenizers.*", "torch", "torch.*", "transformers", "transformers.*"]
 ignore_missing_imports = true
 follow_imports = "skip"
 
