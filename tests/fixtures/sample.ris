@@ -1,0 +1,33 @@
+TY  - JOUR
+ID  - R1
+TI  - Supervised exercise therapy for chronic low back pain: a synthetic randomized trial
+AU  - Example, Ann
+AU  - Sample, Ben
+PY  - 2021
+JO  - Journal of Synthetic Examples
+DO  - https://doi.org/10.5555/SYNTH.0001
+AB  - Background: this abstract was written for software tests.
+This line continues the abstract.
+KW  - exercise
+N1  - ASReview_relevant
+ER  - 
+
+TY  - CHAP
+T1  - An EndNote-style record with alternative tags
+A1  - Placeholder, Cara
+Y1  - 2019///
+JF  - Synthetic Reviews in Medicine
+N2  - Abstract stored in N2, as EndNote does.
+UR  - https://doi.org/10.5555/synth.0002
+AN  - 90000002
+N1  - ASReview_irrelevant
+ER  - 
+
+TY  - JOUR
+ID  - R3
+TI  - A synthetic record without an abstract
+AU  - Test, Dana
+DA  - 2018/05/01
+T2  - Journal of Synthetic Examples
+N1  - PMID: 90000003
+ER  - 

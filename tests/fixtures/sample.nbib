@@ -1,0 +1,28 @@
+PMID- 90000101
+OWN - NLM
+STAT- MEDLINE
+TI  - Synthetic trial of aquatic exercise for chronic low back pain in adults: a
+      randomized controlled trial.
+LID - 10.5555/synth.0101 [doi]
+AB  - BACKGROUND: This synthetic abstract was written for software tests. METHODS:
+      Adults were randomized. RESULTS: Pain improved.
+FAU - Example, Ann
+AU  - Example A
+AD  - Department of Synthetic Data, Example University.
+FAU - Sample, Ben
+AU  - Sample B
+LA  - eng
+PT  - Journal Article
+DP  - 2022 Mar
+TA  - J Synth Ex
+JT  - Journal of Synthetic Examples
+AID - 10.5555/synth.0101 [doi]
+AID - S0000-0000(22)00000-0 [pii]
+SO  - J Synth Ex. 2022 Mar;1(1):1-10. doi: 10.5555/synth.0101.
+
+PMID- 90000102
+TI  - A synthetic record without an abstract.
+AU  - Test D
+DP  - 2020
+TA  - Synth Rev
+SO  - Synth Rev. 2020;2:5. doi: 10.5555/SYNTH.0102.
