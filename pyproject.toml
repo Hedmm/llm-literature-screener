@@ -69,6 +69,10 @@ include = ["src", "tests", "examples", "docs", "benchmarks", "README.md", "LICEN
 [tool.hatch.build.targets.wheel]
 packages = ["src/llm_literature_screener"]
 
+[tool.hatch.build.targets.wheel.force-include]
+# The web app offers the bundled synthetic example, so installed copies ship it too.
+"examples" = "llm_literature_screener/examples"
+
 [tool.ruff]
 line-length = 100
 target-version = "py310"

@@ -1,0 +1,27 @@
+# Review protocol for the bundled example. The records in records.ris are synthetic.
+title: Exercise therapy for chronic low back pain (synthetic example)
+question: >-
+  Does supervised exercise therapy reduce pain and disability in adults with chronic
+  non-specific low back pain?
+population: Adults (18 years or older) with non-specific low back pain lasting 12 weeks or longer.
+intervention: >-
+  Supervised exercise therapy, for example motor control, strengthening, aerobic, aquatic,
+  Pilates, yoga or tai chi exercise.
+comparator: >-
+  Usual care, no treatment, a waiting list, a sham treatment or another conservative
+  treatment.
+outcomes:
+  - Pain intensity
+  - Back-specific disability or function
+study_designs:
+  - Randomized controlled trials
+include:
+  - Trials that report at least one of the outcomes after the treatment period
+exclude:
+  - Children or adolescents
+  - Acute or subacute low back pain (less than 12 weeks)
+  - Surgical, drug or psychological interventions without an exercise arm
+  - Animal studies, reviews, editorials and trial protocols without results
+  - Cohort, cross-sectional and before-and-after studies
+languages: [English]
+years: 2000-2024
