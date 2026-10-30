@@ -53,6 +53,11 @@ from llm_literature_screener.reasons import generate_reasons
 from llm_literature_screener.record import Assessment, Record
 from llm_literature_screener.report import ReportData, write_report
 
+
+class NoRecordsError(ValueError):
+    """Raised when there are no records to screen."""
+
+
 StageProgress = Callable[[str, int, int], None]
 """Called with (stage, done, total). The stages are ``scoring`` and ``reasons``."""
 
@@ -241,13 +246,13 @@ def run_screening(
         title: Title for the report; defaults to the protocol's title.
 
     Raises:
-        ValueError: If there are no records.
+        NoRecordsError: If there are no records.
         CalibrationError: If no threshold is given and no record is a known inclusion.
             This is checked before scoring, so no model time is wasted.
     """
     options = options or ScreeningOptions()
     if not records:
-        raise ValueError("There are no records to screen.")
+        raise NoRecordsError("There are no records to screen: the input files contain none.")
     started_at = datetime.now()
     dedup = find_duplicates(records) if options.deduplicate else None
     unique = dedup.records if dedup else list(records)

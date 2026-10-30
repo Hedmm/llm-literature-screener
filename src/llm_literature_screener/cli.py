@@ -42,6 +42,7 @@ from llm_literature_screener.dedup import find_duplicates
 from llm_literature_screener.io import (
     FORMATS,
     ColumnMappingError,
+    TableFileError,
     UnknownFormatError,
     apply_labels,
     read_labels,
@@ -55,6 +56,7 @@ from llm_literature_screener.pipeline import (
     REPORT_FILE,
     RESULTS_FILE,
     SUMMARY_FILE,
+    NoRecordsError,
     ScreeningOptions,
     StageProgress,
     combine_sources,
@@ -97,7 +99,9 @@ KNOWN_ERRORS = (
     CriteriaError,
     FileNotFoundError,
     LabelFileError,
+    NoRecordsError,
     ResultsFileError,
+    TableFileError,
     UnknownFormatError,
 )
 
@@ -758,7 +762,11 @@ def evaluate_command(
         else:
             items, values = _labeled(items, values, drop_unlabeled)
         truth = [record.label is True for record in items]
-        note = ""
+        if not any(truth):
+            raise LabelFileError(
+                "None of the evaluated records is labeled as an inclusion, so recall cannot "
+                "be measured."
+            )
         if threshold is not None:
             cut = threshold
             note = "fixed threshold"

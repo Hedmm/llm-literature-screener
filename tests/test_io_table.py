@@ -8,7 +8,12 @@ import pytest
 from openpyxl import Workbook, load_workbook
 
 from llm_literature_screener import Assessment, Decision, Record
-from llm_literature_screener.io import ColumnMappingError, read_records, write_records
+from llm_literature_screener.io import (
+    ColumnMappingError,
+    TableFileError,
+    read_records,
+    write_records,
+)
 
 
 def test_csv_with_default_column_names(fixtures: Path) -> None:
@@ -164,3 +169,14 @@ def test_records_without_source_fields_get_standard_columns(tmp_path: Path) -> N
         1999,
         True,
     )
+
+
+def test_unreadable_spreadsheets_raise_a_clear_error(tmp_path: Path) -> None:
+    fake = tmp_path / "fake.xlsx"
+    fake.write_text("this is not a workbook")
+    with pytest.raises(TableFileError, match="not a readable Excel"):
+        read_records(fake)
+    real = tmp_path / "records.xlsx"
+    _make_workbook(real)
+    with pytest.raises(TableFileError, match="no worksheet 'Missing'"):
+        read_records(real, sheet="Missing")

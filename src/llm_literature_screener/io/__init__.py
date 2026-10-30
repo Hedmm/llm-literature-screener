@@ -22,6 +22,7 @@ from llm_literature_screener.io.results import read_results, read_scores, write_
 from llm_literature_screener.io.ris import read_ris, write_ris
 from llm_literature_screener.io.table import (
     ColumnMappingError,
+    TableFileError,
     read_table_records,
     write_delimited,
     write_excel,
@@ -62,6 +63,7 @@ __all__ = [
     "ColumnMappingError",
     "LabelEntry",
     "LabelReport",
+    "TableFileError",
     "UnknownFormatError",
     "apply_labels",
     "detect_format",

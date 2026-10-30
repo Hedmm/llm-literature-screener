@@ -250,3 +250,18 @@ def test_error_messages_keep_square_brackets(monkeypatch: pytest.MonkeyPatch) ->
     outcome = runner.invoke(app, ["screen", "-r", RECORDS, "-c", CRITERIA, "-l", LABELS])
     assert outcome.exit_code == 1
     assert 'llm-literature-screener[hf]"' in text(outcome.output)
+
+
+def test_empty_records_and_labels_without_inclusions_give_clear_errors(tmp_path: Path) -> None:
+    empty = tmp_path / "empty.ris"
+    empty.write_text("")
+    outcome = runner.invoke(
+        app, ["screen", "-r", str(empty), "-c", CRITERIA, "--threshold", "0", "-b", "mock"]
+    )
+    assert outcome.exit_code == 1
+    assert "no records to screen" in text(outcome.output)
+    scores = tmp_path / "scores.csv"
+    scores.write_text("id,score,label\na,1.0,exclude\nb,-1.0,exclude\n")
+    outcome = runner.invoke(app, ["evaluate", "--scores", str(scores), "--threshold", "0"])
+    assert outcome.exit_code == 1
+    assert "labeled as an inclusion" in text(outcome.output)

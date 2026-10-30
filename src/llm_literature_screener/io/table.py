@@ -16,9 +16,11 @@ from dataclasses import dataclass, field
 from io import StringIO
 from pathlib import Path
 from typing import TypeAlias
+from zipfile import BadZipFile
 
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import Font
+from openpyxl.utils.exceptions import InvalidFileException
 
 from llm_literature_screener.io.common import (
     OUTPUT_FIELDS,
@@ -83,6 +85,10 @@ LabelParser: TypeAlias = Callable[[Mapping[str, str]], bool | None]
 
 class ColumnMappingError(ValueError):
     """Raised when a column mapping names an unknown field or a missing column."""
+
+
+class TableFileError(ValueError):
+    """Raised when a spreadsheet cannot be opened."""
 
 
 @dataclass
@@ -167,9 +173,20 @@ def read_delimited(path: Path, delimiter: str | None = None) -> Table:
 
 
 def read_excel(path: Path, sheet: str | None = None) -> Table:
-    """Read the first worksheet of an Excel file, or the worksheet named ``sheet``."""
-    workbook = load_workbook(path, read_only=True, data_only=True)
+    """Read the first worksheet of an Excel file, or the worksheet named ``sheet``.
+
+    Raises:
+        TableFileError: If the file is not a valid Excel workbook or has no such worksheet.
+    """
     try:
+        workbook = load_workbook(path, read_only=True, data_only=True)
+    except (BadZipFile, InvalidFileException, OSError) as error:
+        raise TableFileError(f"{path.name} is not a readable Excel (.xlsx) file: {error}") from None
+    try:
+        if sheet and sheet not in workbook.sheetnames:
+            raise TableFileError(
+                f"{path.name} has no worksheet {sheet!r}; it has: {', '.join(workbook.sheetnames)}."
+            )
         worksheet = workbook[sheet] if sheet else workbook.worksheets[0]
         rows = [[_cell_text(cell) for cell in row] for row in worksheet.iter_rows(values_only=True)]
     finally:
