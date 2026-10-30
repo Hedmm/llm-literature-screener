@@ -271,10 +271,10 @@ def _curve_svg(
         f'transform="rotate({angle:.1f} {_sx(0.74)} {_sy(0.74) + 26})">random order</text>'
     )
     if target is not None:
+        # Labeled in the legend: the random-order diagonal crosses this line's right end.
         parts.append(
             f'<line class="target" x1="{_LEFT}" x2="{_W - _RIGHT}" y1="{_sy(target)}" '
-            f'y2="{_sy(target)}"/><text class="ref-label" x="{_W - _RIGHT}" '
-            f'y="{_sy(target) + 15}" text-anchor="end">{target:.0%} target</text>'
+            f'y2="{_sy(target)}"/>'
         )
     path = " ".join(f"{'M' if i == 0 else 'L'}{_sx(x)} {_sy(y)}" for i, (x, y) in enumerate(curve))
     area = f"{path} L{_sx(1)} {_sy(0)} L{_sx(0)} {_sy(0)} Z"
@@ -368,13 +368,22 @@ def _recall_section(
             f" Only {data.calibration.labeled:,} records have a human decision, so the curve "
             "shows how early these known inclusions are found, not every relevant record."
         )
-    return (
-        f'<section class="card">{heading}'
-        '<div class="legend">'
-        '<span class="key"><i class="line-key"></i>Reading in the model\'s order</span>'
-        '<span class="key"><i class="line-key reference-key"></i>Reading in random order</span>'
+    keys = [
+        '<span class="key"><i class="line-key"></i>Reading in the model\'s order</span>',
+        '<span class="key"><i class="line-key reference-key"></i>Reading in random order</span>',
+    ]
+    target = data.calibration.target_recall
+    if target is not None:
+        keys.append(
+            '<span class="key"><i class="line-key target-key"></i>'
+            f"{target:.0%} recall target</span>"
+        )
+    keys.append(
         f'<span class="key"><i class="dot-key"></i>Calibrated threshold: {_pct(marker[1])} '
-        f"found after reading {_pct(marker[0])} of the records</span></div>"
+        f"found after reading {_pct(marker[0])} of the records</span>"
+    )
+    return (
+        f'<section class="card">{heading}<div class="legend">{"".join(keys)}</div>'
         f'<figure class="chart-box" tabindex="0" aria-describedby="curve-caption">{svg}'
         '<div class="tooltip" role="status" hidden></div></figure>'
         f'<p id="curve-caption" class="muted">{_e(caption)}</p>'
@@ -645,6 +654,7 @@ font-size:13px;font-weight:600;white-space:nowrap;overflow:visible}
 .swatch{display:inline-block;width:12px;height:12px;border-radius:3px}
 .line-key{display:inline-block;width:18px;height:2px;border-radius:1px;background:var(--series)}
 .reference-key{background:var(--muted)}
+.target-key{background:repeating-linear-gradient(90deg,var(--muted) 0 4px,transparent 4px 7px)}
 .dot-key{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--series);
 box-shadow:0 0 0 2px var(--surface)}
 table{width:100%;border-collapse:collapse;font-size:14px}
@@ -669,7 +679,7 @@ details summary{cursor:pointer;color:var(--text-2);margin:8px 0}
 .tick{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
 .axis-title{fill:var(--text-2);font-size:11.5px}
 .reference{stroke:var(--muted);stroke-width:1.5}
-.target{stroke:var(--muted);stroke-width:1}
+.target{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 3}
 .ref-label{fill:var(--muted);font-size:11px}
 .curve{fill:none;stroke:var(--series);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
 .wash{fill:var(--wash);stroke:none}
