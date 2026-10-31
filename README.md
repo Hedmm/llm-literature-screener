@@ -159,8 +159,21 @@ pip install -e ".[hf]"
 python benchmarks/synergy.py
 ```
 
-The validated numbers are in the
-[case study](https://github.com/Hedmm/ml-case-studies/tree/main/llm-screening-systematic-reviews).
+This package with `Qwen/Qwen2.5-7B-Instruct` on one NVIDIA H100 scored all 19,425 records in
+7.2 minutes. The threshold, −11.0, was set on the development review only:
+
+| Review | Role | Records | Final inclusions kept | Recall (95% CI) | Records nobody has to read | ROC AUC | WSS@95 |
+|---|---|---|---|---|---|---|---|
+| Appenzeller-Herzog 2020 | development | 3,453 | 28 of 29 | 96.6% (82.8–99.4) | 41.2% | 0.780 | 0.362 |
+| Wolters 2018 | test | 5,019 | 19 of 19 | 100% (83.2–100) | 67.6% | 0.917 | 0.633 |
+| van Dis 2020 | test | 10,953 | 69 of 73 | 94.5% (86.7–97.8) | 67.2% | 0.889 | 0.600 |
+| **Both test reviews** | test | 15,972 | **88 of 92** | **95.7% (89.3–98.3)** | **67.3%** | | |
+
+These numbers match the
+[case study](https://github.com/Hedmm/ml-case-studies/tree/main/llm-screening-systematic-reviews):
+88 of 92 kept and 67% of the reading saved, with the same five final inclusions missed. The
+metrics, run information, missed records and the three HTML reports of this run are in
+[benchmarks/reference-results/qwen2.5-7b-instruct/](benchmarks/reference-results/qwen2.5-7b-instruct/).
 Options, outputs and the differences from the case study code are described in
 [benchmarks/README.md](benchmarks/README.md).
 

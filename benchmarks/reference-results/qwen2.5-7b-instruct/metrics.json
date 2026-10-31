@@ -1,0 +1,92 @@
+{
+  "dev": "Appenzeller-Herzog_2020",
+  "test": [
+    "Wolters_2018",
+    "van_Dis_2020"
+  ],
+  "target_recall": 0.95,
+  "threshold_from_dev": -11.0,
+  "reviews": [
+    {
+      "review": "Appenzeller-Herzog_2020",
+      "role": "dev",
+      "records": 3453,
+      "inclusions": 29,
+      "threshold": -11.0,
+      "flagged": 2031,
+      "found": 28,
+      "recall": 0.9655172413793104,
+      "recall_ci": [
+        0.8282447812067973,
+        0.9938867857072374
+      ],
+      "precision": 0.013786312161496799,
+      "workload_saved": 0.4118158123370982,
+      "auc": 0.7799609249113761,
+      "wss95": 0.36181581233709814,
+      "screened_for_95": 2031,
+      "screened_for_100": 2375,
+      "kappa": 0.0653160678448018,
+      "kappa_reference": "human",
+      "confidence": 0.95
+    },
+    {
+      "review": "Wolters_2018",
+      "role": "test",
+      "records": 5019,
+      "inclusions": 19,
+      "threshold": -11.0,
+      "flagged": 1624,
+      "found": 19,
+      "recall": 1.0,
+      "recall_ci": [
+        0.8318207759473838,
+        0.9999999999999999
+      ],
+      "precision": 0.011699507389162561,
+      "workload_saved": 0.6764295676429568,
+      "auc": 0.916721052631579,
+      "wss95": 0.6326060968320382,
+      "screened_for_95": 1593,
+      "screened_for_100": 1593,
+      "kappa": 0.015762712589215567,
+      "kappa_reference": "labels",
+      "confidence": 0.95
+    },
+    {
+      "review": "van_Dis_2020",
+      "role": "test",
+      "records": 10953,
+      "inclusions": 73,
+      "threshold": -11.0,
+      "flagged": 3593,
+      "found": 69,
+      "recall": 0.9452054794520548,
+      "recall_ci": [
+        0.8674100245784025,
+        0.9784875025843028
+      ],
+      "precision": 0.0192040077929307,
+      "workload_saved": 0.671962019538026,
+      "auc": 0.8892054039081386,
+      "wss95": 0.6004154113028394,
+      "screened_for_95": 3829,
+      "screened_for_100": 6119,
+      "kappa": 0.21373628811721251,
+      "kappa_reference": "human",
+      "confidence": 0.95
+    }
+  ],
+  "test_total": {
+    "records": 15972,
+    "inclusions": 92,
+    "found": 88,
+    "flagged": 5217,
+    "recall": 0.9565217391304348,
+    "recall_ci": [
+      0.8934831434470113,
+      0.9829642837269864
+    ],
+    "workload_saved": 0.6733658903080391
+  }
+}

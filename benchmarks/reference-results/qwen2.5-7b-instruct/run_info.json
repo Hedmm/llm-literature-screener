@@ -1,0 +1,24 @@
+{
+  "tool_version": "0.1.0",
+  "scorer": {
+    "backend": "hf",
+    "model": "Qwen/Qwen2.5-7B-Instruct",
+    "description": "Hugging Face transformers on cuda (bfloat16)"
+  },
+  "limit": null,
+  "timing": {
+    "Appenzeller-Herzog_2020": {
+      "records": 3453,
+      "seconds": 63.5
+    },
+    "Wolters_2018": {
+      "records": 5019,
+      "seconds": 119.2
+    },
+    "van_Dis_2020": {
+      "records": 10953,
+      "seconds": 246.3
+    }
+  },
+  "warnings": []
+}
