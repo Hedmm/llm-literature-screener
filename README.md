@@ -10,6 +10,10 @@ make every final decision. The tool reads RIS, PubMed, CSV, TSV, Excel, Rayyan a
 files, writes the same formats back, and produces PRISMA 2020 counts, a methods paragraph
 and a self-contained HTML report.
 
+**Live demo:** the [benchmark explorer](https://huggingface.co/spaces/Hedmm/llm-literature-screener)
+shows the tool's real Qwen2.5-7B-Instruct scores on three published reviews. Pick a recall
+target and see the reading saved and the records that slip through.
+
 ![HTML report of the bundled example](docs/images/report.png)
 
 *The report for the bundled synthetic example, screened with the mock backend (keyword
